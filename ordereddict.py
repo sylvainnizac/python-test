@@ -17,16 +17,18 @@ class OrderedDict:
                     for keys in data: #for each key in the dict
                         self.keyslist.append(keys) #append data keys to keyslist
                         self.valueslist.append(data[keys]) #append data values to valueslist
+                else:
+                    pass #if data are set as parameters, like a usual dictionnary creation
 
     def __getitem__(self, entree):
         """
         OrderedDict[entree]
         """
         try:
-            temp = self.keyslist.index(entree)
+            temp = self.keyslist.index(entree) #if the key does not exist, index raise an error
             return self.valueslist[temp]
         except:
-            return "Cette clé n\'existe pas"
+            return "Key does not exist" #going back, nothing to get
 
     def __setitem__(self, entree, valeur):
         """
@@ -38,3 +40,15 @@ class OrderedDict:
         else:
             temp = self.keyslist.index(entree)
             self.valueslist[temp] = valeur
+
+    def __delitem__ (self, entree):
+        """
+        del OrderedDict[entree]
+        """
+        try:
+            temp = self.keyslist.index(entree) #if the key does not exist, index raise an error
+        except:
+            return "Key does not exist" #going back, nothing to delete
+        
+        del self.keyslist[temp]
+        del self.valueslist[temp]
