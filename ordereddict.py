@@ -52,3 +52,42 @@ class OrderedDict:
         
         del self.keyslist[temp]
         del self.valueslist[temp]
+
+    def __contains__(self, entree):
+        """
+        entree in OrderedDict
+        """
+        try:
+            temp = self.keyslist.index(entree)
+            return True
+        except:
+            return False
+        
+    def __len__(self):
+        """
+        len(OrderedDict)
+        """
+        longueur = len(self.keyslist)
+        return longueur
+
+    def __repr__(self):
+        """
+        affichage du dictionnaire lors de l'appel direct dans l'interpréteur
+        """
+        out = "{"
+        for i in range(len(self.keyslist)):
+            if type(self.keyslist[i]) is str:
+                out += "\'" + self.keyslist[i] + "\'" + ": "
+            else:
+                out += str(self.keyslist[i]) + ": "
+                
+            if type(self.valueslist[i]) is str:
+                out += "\'" + self.valueslist[i] + "\'"
+            else:
+                out += str(self.valueslist[i])
+                
+            if i != len(self.keyslist) - 1:
+                out += ", "
+        
+        out += "}"
+        return out
