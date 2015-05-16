@@ -1,4 +1,4 @@
 # python-test
 some stuff about python
 
-ordereddict.py => a class wich create a sortable dictionnary
+ordereddict.py => a class which create a sortable dictionnary
