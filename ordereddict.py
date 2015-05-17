@@ -133,6 +133,9 @@ class OrderedDict:
             raise OrDictError('Only works with 2 OrderedDict')
 
     def sort(self, reverse = False):
+        """
+        OrderesDict.sort(), sort the object by key.
+        """
         self.keyssorted = []
         self.valuessorted = []
         self.tempkey = None
@@ -146,26 +149,46 @@ class OrderedDict:
             
             for k in self.keyslist:
                 if reverse == False:
-                    if str(k) < str(self.tempkey):
+                    if str(k) < str(self.tempkey): #increasing order
                         self.tempkey = k
                         self.tempindex = self.keyslist.index(k)
                         self.tempvalue = self.valueslist[self.tempindex]
                 else:
-                    if str(k) > str(self.tempkey):
+                    if str(k) > str(self.tempkey): #decreasing order
                         self.tempkey = k
                         self.tempindex = self.keyslist.index(k)
                         self.tempvalue = self.valueslist[self.tempindex]
             
+            #add values to the sorted Dict
             self.keyssorted.append(self.tempkey)
             self.valuessorted.append(self.tempvalue)
             
+            #remove values from the older one
             self.keyslist.pop(self.tempindex)
             self.valueslist.pop(self.tempindex)
         
+        #synchronization between old and new dicts
         self.keyslist = self.keyssorted
         self.valueslist = self.valuessorted
-            
+        
+        #nothing to return, the dict is already modified
         return None
+    
+    def keys(self):
+        """
+        return the list of the keys
+        """
+
+        return self.keyslist
+        
+    def values(self):
+        """
+        return the list of the values
+        """
+
+        return self.valueslist
+        
+    #def items(self):
         
 class ItOrDict:
     """
