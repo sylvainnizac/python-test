@@ -120,7 +120,7 @@ class OrderedDict:
         """
         return ItOrDict(self)
 
-    def __add__ (self, entree):
+    def __add__(self, entree):
         """
         OrderedDict + OrderedDict
         """
@@ -131,6 +131,41 @@ class OrderedDict:
                 self.valueslist.append(entree[k])
         else:
             raise OrDictError('Only works with 2 OrderedDict')
+
+    def sort(self, reverse = False):
+        self.keyssorted = []
+        self.valuessorted = []
+        self.tempkey = None
+        self.tempindex = None
+        self.tempvalue = None
+        
+        while len(self.keyslist) != 0:
+            self.tempkey = self.keyslist[0]
+            self.tempindex = self.keyslist.index(self.tempkey)
+            self.tempvalue = self.valueslist[self.tempindex]
+            
+            for k in self.keyslist:
+                if reverse == False:
+                    if str(k) < str(self.tempkey):
+                        self.tempkey = k
+                        self.tempindex = self.keyslist.index(k)
+                        self.tempvalue = self.valueslist[self.tempindex]
+                else:
+                    if str(k) > str(self.tempkey):
+                        self.tempkey = k
+                        self.tempindex = self.keyslist.index(k)
+                        self.tempvalue = self.valueslist[self.tempindex]
+            
+            self.keyssorted.append(self.tempkey)
+            self.valuessorted.append(self.tempvalue)
+            
+            self.keyslist.pop(self.tempindex)
+            self.valueslist.pop(self.tempindex)
+        
+        self.keyslist = self.keyssorted
+        self.valueslist = self.valuessorted
+            
+        return None
         
 class ItOrDict:
     """
