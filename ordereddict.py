@@ -188,7 +188,19 @@ class OrderedDict:
 
         return self.valueslist
         
-    #def items(self):
+    def items(self):
+        """
+        return a list of tuples, one for each key/value pair
+        """
+        out = []
+        
+        for k in self.keyslist:
+            v = self.valueslist[self.keyslist.index(k)]
+            temp = (k, v)
+            
+            out.append(temp)
+        
+        return out
         
 class ItOrDict:
     """
