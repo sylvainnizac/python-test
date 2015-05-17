@@ -120,18 +120,17 @@ class OrderedDict:
         """
         return ItOrDict(self)
 
-    def __add__ (self, entree): # stand by manque l'itération
+    def __add__ (self, entree):
         """
         OrderedDict + OrderedDict
         """
         
-        if type(entree) is OrderedDict: #vérifier que on a bien un OrderedDict en entrée
+        if type(entree) is OrderedDict: #this method works only with 2 OrderedDicts
             for k in entree:
-                return "passage ok", entree
-                #self.keyslist.append(k)
-                #self.valueslist.append(entree[k])
-        #else:
-            #raise error #syntaxe a revoir sur l'erreur à sortir ou juste message
+                self.keyslist.append(k)
+                self.valueslist.append(entree[k])
+        else:
+            raise OrDictError('Only works with 2 OrderedDict')
         
 class ItOrDict:
     """
@@ -159,3 +158,12 @@ class ItOrDict:
         self.pos += 1
         #return self.keytemp, self.valtemp
         return self.keytemp
+
+class OrDictError(Exception):
+    """
+    OrderedDict special error
+    """
+    def __init__(self, value):
+        self.value = value
+    def __str__(self):
+        return repr(self.value)
