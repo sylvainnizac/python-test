@@ -72,7 +72,7 @@ class OrderedDict:
 
     def __repr__(self):
         """
-        affichage du dictionnaire lors de l'appel direct dans l'interpréteur
+        display dictionnary with a direct call from the interpretor
         """
         out = "{"
         for i in range(len(self.keyslist)):
@@ -91,3 +91,71 @@ class OrderedDict:
         
         out += "}"
         return out
+
+    def __str__(self):
+        """
+        print(OrderedDict)
+        """
+        out = "{"
+        for i in range(len(self.keyslist)):
+            if type(self.keyslist[i]) is str:
+                out += "\'" + self.keyslist[i] + "\'" + ": "
+            else:
+                out += str(self.keyslist[i]) + ": "
+                
+            if type(self.valueslist[i]) is str:
+                out += "\'" + self.valueslist[i] + "\'"
+            else:
+                out += str(self.valueslist[i])
+                
+            if i != len(self.keyslist) - 1:
+                out += ", "
+        
+        out += "}"
+        return out
+
+    def __iter__(self):
+        """
+        iter(OrderedDict)
+        """
+        return ItOrDict(self)
+
+    def __add__ (self, entree): # stand by manque l'itération
+        """
+        OrderedDict + OrderedDict
+        """
+        
+        if type(entree) is OrderedDict: #vérifier que on a bien un OrderedDict en entrée
+            for k in entree:
+                return "passage ok", entree
+                #self.keyslist.append(k)
+                #self.valueslist.append(entree[k])
+        #else:
+            #raise error #syntaxe a revoir sur l'erreur à sortir ou juste message
+        
+class ItOrDict:
+    """
+    create OrderedDict's iterator
+    """
+    def __init__(self, entree):
+        """
+        The constructor create all the usefull variables for __next__
+        """
+        self.dicolist = entree
+        self.posmax = len(entree)
+        self.pos = 0
+        self.keytemp = ""
+        #self.valtemp = ""
+        
+    def __next__(self):
+        """
+        method called during the iteration
+        """
+        if self.pos == self.posmax:
+            raise StopIteration
+        
+        self.keytemp = self.dicolist.keyslist[self.pos]
+        #self.valtemp = self.dicolist.valueslist[self.pos]
+        self.pos += 1
+        #return self.keytemp, self.valtemp
+        return self.keytemp
