@@ -4,21 +4,33 @@ class OrderedDict:
     The object must work like a dictionnary AND like a list.
     """
 
-    def __init__(self, *entree):
+    def __init__(self, *entree, **vrac):
         """
         the constructor creates le empty dictolist and, if needed, load the input data
         """
         self.keyslist = []
         self.valueslist = []
 
-        if len(entree) != 0: #if there is parameters
+        if len(entree) != 0: #if there is one or more unamed parameters
             for data in entree: #for each parameter
                 if type(data) is dict: #if the parameter is a dict
                     for keys in data: #for each key in the dict
                         self.keyslist.append(keys) #append data keys to keyslist
                         self.valueslist.append(data[keys]) #append data values to valueslist
                 else:
-                    pass #if data are set as parameters, like a usual dictionnary creation
+                    raise OrDictError('Only works with Dict or OrderedDict')
+                if type(data) is OrderedDict:
+                    for key, value in data: #for each key in the dict
+                        self.keyslist.append(key) #append data keys to keyslist
+                        self.valueslist.append(value) #append data values to valueslist
+                else:
+                    raise OrDictError('Only works with Dict or OrderedDict')
+                        
+        elif len(vrac) != 0: #if there is one or more named parameters
+            for data in vrac:
+                self.keyslist.append(data)
+                self.valueslist.append(vrac[data])
+                
 
     def __getitem__(self, entree):
         """
@@ -204,7 +216,7 @@ class OrderedDict:
         
 class ItOrDict:
     """
-    create OrderedDict's iterator
+    create OrderedDict's iterator, the iterator returns keys and values
     """
     def __init__(self, entree):
         """
@@ -214,7 +226,7 @@ class ItOrDict:
         self.posmax = len(entree)
         self.pos = 0
         self.keytemp = ""
-        #self.valtemp = ""
+        self.valtemp = ""
         
     def __next__(self):
         """
@@ -224,10 +236,9 @@ class ItOrDict:
             raise StopIteration
         
         self.keytemp = self.dicolist.keyslist[self.pos]
-        #self.valtemp = self.dicolist.valueslist[self.pos]
+        self.valtemp = self.dicolist.valueslist[self.pos]
         self.pos += 1
-        #return self.keytemp, self.valtemp
-        return self.keytemp
+        return self.keytemp, self.valtemp
 
 class OrDictError(Exception):
     """
